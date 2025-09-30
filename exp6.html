@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cake Shop</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background: #b22222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .cake-list {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .cake-list img {
+      width: 200px;
+      height: 150px;
+      border-radius: 5px;
+    }
+    .cake-list p {
+      text-align: center;
+      margin: 5px 0 0;
+      font-weight: bold;
+    }
+    .order-box {
+      background: #fff;
+      width: 400px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .order-box h2 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+    .order-box input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    .bill {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .bill .price {
+      background: green;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">CAKE SHOP</div>
+
+  <div class="cake-list">
+    <div>
+      <img src="https://imgs.search.brave.com/e08tymItSl2Ua8PnnpFKCVWW_Qh4V9XvxL3MEpJU0Hc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2MwLzJl/L2IyL2MwMmViMmJm/MDYxNWY4OTJhZDVj/NmJlOGY3N2Y5ZDU3/LmpwZw" alt="Rainbow Cake">
+      <p>Rainbow Cake – Rs. 300</p>
+    </div>
+    <div>
+      <img src="https://imgs.search.brave.com/9zQO8u0oWBXwU1NGB-EM1vmj3EckRWBzYvpZT57KFCo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Zm5wLmNvbS9hc3Nl/dHMvaW1hZ2VzL2N1/c3RvbS9hbHBoYS1z/aWduYXR1cmUtaWNv/bnMvbWF5LTIvQmly/dGhkYXktQ2hvY29s/YXRlLUNha2VzX0Fs/cGhhLUljb25zXzUy/OHg1MjguanBn" alt="Chocolate Cake">
+      <p>Chocolate Cake – Rs. 200</p>
+    </div>
+    <div>
+      <img src="https://imgs.search.brave.com/Ogwl2BKMNNYR-etUao0F24_EFh7-oHI9-XJidQMEokM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zcGNk/bi5zaG9ydHBpeGVs/LmFpL3NwaW8vcmV0/X2ltZyxxX2Nkbml6/ZSx0b19hdXRvLHNf/d2VicDphdmlmL2No/ZWxzd2VldHMuY29t/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE5/LzExL3ZlcnRpY2Fs/LWluLWxvd2VyLWZy/YW1lLTEtMTAyNHg2/ODMuanBn" alt="Red Velvet Cake">
+      <p>Red Velvet Cake – Rs. 250</p>
+    </div>
+    <div>
+      <img src="https://imgs.search.brave.com/3xLHa-VmdgCywCrpch8i54wplyp3ilItFFzsHT2kCic/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/aG90YnJlYWRzLmNv/LmluL2Nkbi9zaG9w/L3Byb2R1Y3RzLzBJ/NEE1NDc5Y29weV8x/MDAweDEwMDAuanBn/P3Y9MTY0MTE2ODEw/MQ" alt="Black Forest Cake">
+      <p>Black Forest Cake – Rs. 350</p>
+    </div>
+  </div>
+
+  <div class="order-box">
+    <h2>Order Cake</h2>
+    <input type="number" id="rainbow" placeholder="Rainbow Cake (Quantity)" value="0">
+    <input type="number" id="chocolate" placeholder="Chocolate Cake (Quantity)" value="0">
+    <input type="number" id="redvelvet" placeholder="Red Velvet Cake (Quantity)" value="0">
+    <input type="number" id="blackforest" placeholder="Black Forest Cake (Quantity)" value="0">
+
+    <button class="btn" id="placeOrder">Place Order</button>
+
+    <div class="bill">
+      <p id="purchaseText"></p>
+      <div id="totalPrice" class="price" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#placeOrder").click(function(){
+        let rainbow = parseInt($("#rainbow").val()) || 0;
+        let chocolate = parseInt($("#chocolate").val()) || 0;
+        let redvelvet = parseInt($("#redvelvet").val()) || 0;
+        let blackforest = parseInt($("#blackforest").val()) || 0;
+
+        let total = (rainbow * 300) + (chocolate * 200) + (redvelvet * 250) + (blackforest * 350);
+
+        if(total > 0){
+          $("#purchaseText").text("Purchase Order Bill!!!");
+          $("#totalPrice").text("Total Price: Rs. " + total).show();
+        } else {
+          $("#purchaseText").text("Please order at least one cake.");
+          $("#totalPrice").hide();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
